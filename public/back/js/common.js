@@ -13,16 +13,70 @@
 
 // .ajaxStart(fn);      在第一个ajax开始发送时, 调用fn
 // .ajaxStop(fn);       在全部的ajax完成时, 调用fn  (不管成功还是失败)
-$(document).ajaxStart(function(){
+$(document).ajaxStart(function () {
     NProgress.start();
 })
 
-$(document).ajaxStop(function(){
-    setTimeout(function(){
+$(document).ajaxStop(function () {
+    setTimeout(function () {
         NProgress.done();
-    },2000)
+    }, 2000)
 })
 
+
+$(function () {
+    //点击切换类名  让一级菜单显示或者隐藏
+    $(".categroy").on("click", function () {
+        // console.log(111);
+        $(this).next().stop().slideToggle();
+        
+    })
+
+    //点击按钮,左边的侧边栏显示隐藏
+    $(".icon_menu").on("click",function(){
+        $(".lt_topbar").toggleClass("hidemenu");
+        $(".lt_main").toggleClass("hidemenu");
+        $(".lt_aside").toggleClass("hidemenu");
+    })
+
+
+    //3.退出按钮  显示模态框
+    $(".icon_logout").on("click",function(){
+        //模态框显示
+        $("#logoutModal").modal("show");
+    })
+
+    //点击模态框的确认按钮  退出登录信息
+    // id="logoutBtn"
+    $("#logoutBtn").on("click",function(){
+        $.ajax({
+            type:"get",
+            url:"/employee/employeeLogout",
+            dataType:"json",
+            success:function(info){
+                console.log(info);
+                if(info.success){
+                    location.href="login.html"
+                }
+                
+            }
+        })
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
 
 
 

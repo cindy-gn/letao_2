@@ -47,7 +47,7 @@ a:active{
     transition: all 0.5s;
 }
 .lt_aside.hidemenu{
-    left: 0;
+    left:-180px;
 }
 
 /* 侧边栏的头部 */
