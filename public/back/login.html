@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap  框架实现 -->
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+    <!-- 自己的css样式 -->
+    <link rel="stylesheet" href="./css/common.css">
+    <title>登录页面</title>
+</head>
+
+<body class="body_bg">
+    <div class="container">
+        <!-- 插件组件里面的面板实现 -->
+        <div class=" col-lg-4 col-lg-offset-4 mt_150">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <p class="panel-title">后台管理系统</p>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-3 control-label">用户名:</label>
+                            <div class="col-sm-9">
+                                <input type="username" name="username" class="form-control" id="username" placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-3 control-label">密　码:</label>
+                            <div class="col-sm-9">
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- 两边都留出来三分,中间剩下的就是六分 -->
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <button type="submit" class="btn btn-default pull-left">重置</button>
+                                <button type="submit" class="btn btn-primary pull-right">登录</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- bootstrap   是依赖于jq的-->
+    <script src="./lib/jquery/jquery.min.js"></script>
+    <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>
