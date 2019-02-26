@@ -157,6 +157,13 @@ a:active{
     height: 400px;
 }
 
+/* 表格里面的内容居中设置 */
+.table>thead>tr>th,
+.table>tbody>tr>td{
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 
 

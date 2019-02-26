@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./lib/nprogress/nprogress.css">
   <!-- 自己的css样式 -->
   <link rel="stylesheet" href="./css/common.css">
-  <title>登录页面</title>
+  <title>用户页面</title>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
   <div class="lt_aside">
     <!-- 标题 -->
     <div class="brand">
-      <a href="#">黑马35期</a>
+      <a href="index.html">黑马35期</a>
     </div>
     <!-- 管理员头像信息 -->
     <div class="user">
@@ -31,18 +31,18 @@
     <!-- 菜单导航部分 -->
     <div class="nav">
       <ul>
-        <li><a href="#"><i class="glyphicon glyphicon-user"></i><span>用户管理</span></a></li>
+        <li><a href="user.html" class="current"><i class="glyphicon glyphicon-user"></i><span>用户管理</span></a></li>
         <li>
-          <a href="javascript:;" class="categroy">
+          <a href="javascript:;" class="category">
             <i class="glyphicon glyphicon-list"></i>
             <span>分类管理</span>
           </a>
           <div class="child">
-            <a href="#" class="first">一级分类</a>
-            <a href="#" class="second">二级分类</a>
+            <a href="first.html" class="first">一级分类</a>
+            <a href="second.html" class="second">二级分类</a>
           </div>
         </li>
-        <li><a href="#"><i class="glyphicon glyphicon-tags"></i><span>商品管理</span></a></li>
+        <li><a href="product.html"><i class="glyphicon glyphicon-tags"></i><span>商品管理</span></a></li>
       </ul>
     </div>
   </div>
@@ -58,19 +58,91 @@
       <!-- 路径导航 -->
       <ol class="breadcrumb mt_20">
         <li><a href="index.html">管理系统</a></li>
-        <li class="active">首页</li>
+        <li class="active">用户管理</li>
       </ol>
       <!-- 数据可视化部分 -->
       <div class="lt_content">
-        <div class="echarts_left pull-left"></div>
-        <div class="echarts_right pull-right"></div>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>用户名</th>
+              <th>手机号</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 模板引擎渲染 -->
+          </tbody>
+        </table>
+
+
+        <!-- 分页dom结构 -->
+        <div class="text-right">
+          <ul id="paginator"></ul>
+        </div>
       </div>
 
     </div>
   </div>
+  <!-- 模板引擎渲染数据到页面 -->
+  <!-- 
+    id: 1
+    isDelete: 1
+    mobile: "15757771111"
+    password: "lueSGJZetyySpUndWjMBEg=="
+    username: "itcast"
 
+    page   页码   size   一页的数据条数
+    v  --表示值   i---表示下标
+    序号: 的规律  递增  (当前页码-1)*当前页的数据条数+当前这条数据的下标+1
+   -->
+  <script type="text/html" id="tpl">
+    {{ each rows v i }}
+    <tr>
+      <!-- i+1表示当前页第几条 + 前面页有多少条 (page-1)*size -->
+      <td>{{ (page-1)*size + i+1 }}</td>
+      <td>{{v.username}}</td>
+      <td>{{v.mobile}}</td>
+      <!-- 1 一般都是正面的状态 0 负面的状态
+             1 表示正常启用,  0 表示该用户已禁用
+             isDelete: 1/0
+        -->
+      <td>{{v.isDelete===1?"正常":"禁用"}}</td>
+      <td data-id="{{v.id}}">
+        {{if v.isDelete===1}}
+        <button class="btn btn-danger">禁用</button>
+        {{else}}
+        <button class="btn btn-success">启用</button>
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+  <!-- 模态框部分  再bootstrap  插件里面 
+        这个是按钮禁用  启用按钮 显示的模态框
+    -->
+  <div class="modal fade" tabindex="-1" id="userModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</span></button>
+          <h4 class="modal-title">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+          <p class="red"><i class="glyphicon glyphicon-info-sign"></i> 您确定要执行此操作吗?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="submitBtn">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- 模态框部分  再bootstrap  插件里面 -->
+  <!-- 模态框部分  再bootstrap  插件里面 
+    这个是点击退出按钮  显示的模态框-->
   <div class="modal fade" tabindex="-1" id="logoutModal">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
@@ -91,15 +163,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
   <!-- bootstrap   是依赖于jq的-->
   <script src="./lib/jquery/jquery.min.js"></script>
   <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
@@ -107,10 +170,16 @@
   <script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
   <!-- 进度条插件 -->
   <script src="./lib/nprogress/nprogress.js"></script>
+  <!-- 模板引擎插件 -->
+  <script src="./lib/artTemplate/template-web.js"></script>
+  <!-- 分页插件 -->
+  <script src="./lib/bootstrap-paginator/bootstrap-paginator.min.js"></script>
   <!-- 登录拦截 -->
   <script src="./js/isLogin.js"></script>
   <!-- 初始化进度条 -->
   <script src="./js/common.js"></script>
+  <!-- 实现数据模板渲染到页面 -->
+  <script src="./js/user.js"></script>
 
 </body>
 
