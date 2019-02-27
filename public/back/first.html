@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./lib/nprogress/nprogress.css">
     <!-- 自己的css样式 -->
     <link rel="stylesheet" href="./css/common.css">
-    <title>登录页面</title>
+    <title>一级分类</title>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
     <div class="lt_aside">
         <!-- 标题 -->
         <div class="brand">
-            <a href="#">黑马35期</a>
+            <a href="index.html">黑马35期</a>
         </div>
         <!-- 管理员头像信息 -->
         <div class="user">
@@ -31,18 +31,18 @@
         <!-- 菜单导航部分 -->
         <div class="nav">
             <ul>
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i><span>用户管理</span></a></li>
+                <li><a href="user.html"><i class="glyphicon glyphicon-user"></i><span>用户管理</span></a></li>
                 <li>
-                    <a href="javascript:;" class="categroy" >
+                    <a href="javascript:;" class="category">
                         <i class="glyphicon glyphicon-list"></i>
                         <span>分类管理</span>
                     </a>
-                    <div class="child">
-                        <a href="#" class="first">一级分类</a>
-                        <a href="#" class="second">二级分类</a>
+                    <div class="child" style="display:block;">
+                        <a href="first.html" class="first current">一级分类</a>
+                        <a href="second.html" class="second">二级分类</a>
                     </div>
                 </li>
-                <li><a href="#"><i class="glyphicon glyphicon-tags"></i><span>商品管理</span></a></li>
+                <li><a href="product.html"><i class="glyphicon glyphicon-tags"></i><span>商品管理</span></a></li>
             </ul>
         </div>
     </div>
@@ -58,19 +58,70 @@
             <!-- 路径导航 -->
             <ol class="breadcrumb mt_20">
                 <li><a href="index.html">管理系统</a></li>
-                <li class="active">首页</li>
+                <li class="active">一级分类</li>
             </ol>
+
             <!-- 数据可视化部分 -->
             <div class="lt_content">
-                <div class="echarts_left pull-left"></div>
-                <div class="echarts_right pull-right"></div>
+                <!-- 点击添加按钮 -->
+                <button class="btn btn-default" id="addBtn">添加分类</button>
+
+                <table class="table table-bordered table-hover mt_20">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>一级分类</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 模板引擎渲染 -->
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>生活馆</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+
+
+                <!-- 分页dom结构 -->
+                <div class="text-right">
+                    <ul id="paginator"></ul>
+                </div>
             </div>
 
         </div>
     </div>
+    <!-- 模板引擎渲染数据到页面 -->
 
+    <!-- 模态框部分  再bootstrap  插件里面 
+        这个是按钮禁用  启用按钮 显示的模态框
+    -->
+    <div class="modal fade" tabindex="-1" id="addModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- 用form 表单包起来  用于提交表单数据 -->
+                <form id="form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</span></button>
+                        <h4 class="modal-title">添加分类</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" name='categoryName' placeholder="请输入一级分类" class="form-control">
 
-    <!-- 模态框部分  再bootstrap  插件里面 -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框部分  再bootstrap  插件里面 
+    这个是点击退出按钮  显示的模态框-->
     <div class="modal fade" tabindex="-1" id="logoutModal">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -89,14 +140,16 @@
         </div>
     </div>
 
+    <!-- 渲染一份分类的页面 -->
+    <script type="text/html" id="firstTpl">
 
-
-
-
-
-
-
-
+        {{each rows v i}}
+        <tr>
+            <td>{{i+1+(page-1)*size}}</td>
+            <td>{{v.categoryName}}</td>
+        </tr>
+        {{/each}}
+    </script>
 
 
 
@@ -107,10 +160,16 @@
     <script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
     <!-- 进度条插件 -->
     <script src="./lib/nprogress/nprogress.js"></script>
+    <!-- 模板引擎插件 -->
+    <script src="./lib/artTemplate/template-web.js"></script>
+    <!-- 分页插件 -->
+    <script src="./lib/bootstrap-paginator/bootstrap-paginator.min.js"></script>
     <!-- 登录拦截 -->
     <script src="./js/isLogin.js"></script>
     <!-- 初始化进度条 -->
     <script src="./js/common.js"></script>
+    <!-- 实现数据模板渲染到页面 -->
+    <script src="./js/first.js"></script>
 
 </body>
 
